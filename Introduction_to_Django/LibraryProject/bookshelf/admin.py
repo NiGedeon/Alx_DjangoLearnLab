@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models imort Book
+from .models import Book
 class BookAdmin(admin.ModelAdmin):
      # Displaying the fields in the list view
     list_display = ('title', 'author', 'publication_year')
