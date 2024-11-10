@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
+from django.contrib.auth import login
 
 def list_books(request):
     books = Book.objects.all()
