@@ -35,13 +35,13 @@ class RegisterView(View):
     template_name = 'register.html'
 
     def get(self, request):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        form = UserCreationForm()
+        return render(request, "relationship/register.html", {'form': form})
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login')
-        return render(request, self.template_name, {'form': form})
+        return render(request, "relationship/register.html", {'form': form})
 
