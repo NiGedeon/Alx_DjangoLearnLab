@@ -11,6 +11,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth import login
 
+from django.contrib.auth.decorators import user_passes_test
+from .models import UserProfile
+
 def list_books(request):
     books = Book.objects.all()
     context = {'books': books}
