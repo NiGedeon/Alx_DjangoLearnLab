@@ -55,7 +55,7 @@ def is_admin(user):
 # Admin View
 @user_passes_test(lambda user: user.userprofile.role == 'Admin')
 def admin_view(request):
-    return render(request, 'relationship_app/admin_view.html')
+    return render(request, 'admin_view.html')
 
 # Librarian View
 @user_passes_test(lambda user: user.userprofile.role == 'Librarian'))
