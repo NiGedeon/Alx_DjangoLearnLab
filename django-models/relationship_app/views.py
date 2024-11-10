@@ -49,6 +49,8 @@ class RegisterView(View):
         return render(request, "relationship_app/register.html", {'form': form})
 
 
+def is_admin(user):
+    return user.userprofile.role == 'Admin'
 
 # Admin View
 @user_passes_test(lambda user: user.userprofile.role == 'Admin')
