@@ -52,6 +52,15 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
+    #Creating custom permissions
+    class Meta:
+        permissions = [
+                    ("can_view","Can view the books"),
+                    ("can_create", "Can Create the new user"),
+                    ("can_edit","Can edit the details of the book"),
+                    ("can_delete","Can delete any details of the book")
+                ]
+
 
 from django.conf import settings
 
