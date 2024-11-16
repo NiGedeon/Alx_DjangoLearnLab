@@ -1,7 +1,8 @@
 from django.shortcuts import render,get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import CustomUser,Book
-from .forms import BookForm,CustomUserCreationForm,ExampleForm
+from .forms import BookForm,CustomUserCreationForm
+from .forms import ExampleForm
 @permission_required('bookshelf.can_edit', raise_exception=True)
 def edit_book(request, pk):
     book = get_object_or_404(CustomUser, pk=pk)
