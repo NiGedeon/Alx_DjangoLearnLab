@@ -49,5 +49,8 @@ def example_view(request):
         form = ExampleForm()
     return render(request, 'form_example.html', {'form': form})
 
+def book_list(request):
+    books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': books})
 
 # Create your views here.
