@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import CustomUser,Book
-from .forms import BookForm,CustomUserCreationForm
+from .forms import BookForm,CustomUserCreationForm,ExampleForm
 @permission_required('bookshelf.can_edit', raise_exception=True)
 def edit_book(request, pk):
     book = get_object_or_404(CustomUser, pk=pk)
@@ -37,6 +37,16 @@ def create_user(request):
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'book_list.html', {'books': books})
+
+
+def example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid:
+            return redirect('success_view')
+    else:
+        form = ExampleForm()
+    return render(request, 'form_example.html', {'form': form})
 
 
 # Create your views here.

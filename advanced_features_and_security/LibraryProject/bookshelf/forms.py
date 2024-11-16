@@ -9,3 +9,8 @@ class CustomUserCreationForm:
     class Meta:
         models=CustomUser
         fields = ['username','date_of_birth']
+
+class ExampleForm(forms.ModelForm):
+    class Meta:
+        model = Book  # Replace with the appropriate model
+        fields = ['title', 'author', 'publication_year']
