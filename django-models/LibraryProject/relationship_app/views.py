@@ -79,3 +79,15 @@ def delete_book(request, book_id):
         return redirect('list_books')
     return render(request, 'relationship_app/delete_book.html', {'book': book})
 
+ form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('list_books')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'relationship_app/edit_book.html', {'form': form, 'book': book})
+
+@permission_required('relationship_app.can_access_admin_view', raise_exception=True)
+def admin_only_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
