@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api.apps.ApiConfig',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'api_project.urls'
+
+#Updating DRF settings to include token authentication in the DEFAULT_AUTHENTICATION_CLASSES.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
 
 TEMPLATES = [
     {
