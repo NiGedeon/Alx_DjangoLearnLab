@@ -4,7 +4,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from .serializers import BookSerializer
 from .models import Book
 #Import a library to perform  the filtering
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
+from rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter,OrderingFilter
 
 #The purpose of this class is to List all available books.
