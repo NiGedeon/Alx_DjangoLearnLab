@@ -24,12 +24,13 @@ class CommentForm(forms.ModelForm):
         fields = ['content']
 
 
-from taggit.forms import TagField, TagWidget
+from django.forms import widgets  # This is the correct import for widgets
 
 class PostForm(forms.ModelForm):
-    # TagField with TagWidget
-    tags = TagField(widget=TagWidget())
-
     class Meta:
         model = Post
-        fields = ['title', 'content', 'tags']
+        fields = ['title', 'content', 'tags']  # Example fields
+        widgets = {
+            'tags': widgets.CheckboxSelectMultiple(),  # Example widget for tag field
+        }
+
