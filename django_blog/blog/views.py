@@ -99,7 +99,7 @@ from .models import Comment
 from .forms import CommentForm
 
 # To view a blog post along with its comments
-def post_detail(request, pk):
+defcomment_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = post.comments.all()  # Get all comments related to the post
     comment_form = CommentForm()
@@ -146,4 +146,21 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.object.post.pk}
 
+from django.views.generic import CreateView
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = "comment_form.html"
+
+    def form_valid(self, form):
+        # Set the post and author before saving the comment
+        post = get_object_or_404(Post, pk=self.kwargs['post_id'])
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect back to the post detail page
+        return self.object.get_absolute_url()
 
