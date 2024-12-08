@@ -162,4 +162,18 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         # Redirect back to the post detail page
         return self.object.get_absolute_url()
+from django.db.models import Q  # For complex queries
+from .models import Post
 
+def post_search(request):
+    query = request.GET.get('q')  # Get the search term from the query parameters
+    results = Post.objects.none()  # Default to no results
+
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()  # Use distinct to avoid duplicates if multiple fields match
+
+    return render(request, 'blog/post_search.html', {'results': results, 'query': query})
