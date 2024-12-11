@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate, get_user_model
 from .models import CustomUser
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -14,12 +16,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
+        # Create the user using get_user_model()
+        user = get_user_model().objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password']
         )
+        # Create a token for the user
+        Token.objects.create(user=user)
         return user
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -32,7 +38,7 @@ class LoginSerializer(serializers.Serializer):
         user = authenticate(username=username, password=password)
         if not user:
             raise serializers.ValidationError("Invalid username or password.")
-        
+
         # Generate tokens
         refresh = RefreshToken.for_user(user)
         return {
@@ -46,3 +52,4 @@ class LoginSerializer(serializers.Serializer):
                 'profile_picture': user.profile_picture.url if user.profile_picture else None,
             }
         }
+
