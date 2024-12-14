@@ -65,13 +65,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-```
 
 #### Login Serializer
 
 Create a login serializer to validate user credentials and generate tokens:
 
-```python
+#python
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -93,13 +92,12 @@ class LoginSerializer(serializers.Serializer):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }
-```
 
 #### Views
 
 Create views to handle registration and login:
 
-```python
+#python
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -119,13 +117,12 @@ class LoginView(APIView):
         if serializer.is_valid():
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-```
 
 #### URL Patterns
 
-Add the endpoints to `accounts/urls.py`:
+Add the endpoints to 'accounts/urls.py':
 
-```python
+#python
 from django.urls import path
 from .views import RegisterView, LoginView
 
@@ -133,17 +130,15 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
 ]
-```
 
 Include these URLs in the project-level `urls.py`:
 
-```python
+#python
 from django.urls import path, include
 
 urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
 ]
-```
 
 ---
 
@@ -151,34 +146,53 @@ urlpatterns = [
 
 ### 1. Register a New User
 
-- **URL**: `/api/accounts/register/`
-- **Method**: `POST`
-- **Payload**:
-  ```json
+- URL: '/api/accounts/register/'
+- Method: 'POST'
+- Payload:
+  #json
   {
       "username": "testuser",
       "email": "testuser@example.com",
       "password": "testpassword"
   }
-  ```
+  
 
 ### 2. Login and Get Tokens
 
-- **URL**: `/api/accounts/login/`
-- **Method**: `POST`
-- **Payload**:
-  ```json
+- URL: '/api/accounts/login/'
+- Method: 'POST'
+- Payload:
+  #json
   {
       "username": "testuser",
       "password": "testpassword"
   }
-  ```
-- **Response**:
-  ```json
+  
+- Response:
+  #json
   {
       "refresh": "<REFRESH_TOKEN>",
       "access": "<ACCESS_TOKEN>"
   }
-  ```
+ 
+# API Endpoints for Posts and Comments
+
+# Posts
+- GET /api/posts/: List all posts.
+- POST /api/posts/: Create a new post (requires authentication).
+- GET /api/posts/{id}/: Retrieve a specific post.
+- PUT /api/posts/{id}/: Update a specific post (requires ownership).
+- DELETE /api/posts/{id}/: Delete a specific post (requires ownership).
+
+#Comments
+- GET /api/comments/: List all comments.
+- POST /api/comments/: Create a new comment (requires authentication).
+- GET /api/comments/{id}/: Retrieve a specific comment.
+- PUT /api/comments/{id}/: Update a specific comment (requires ownership).
+- DELETE /api/comments/{id}/: Delete a specific comment (requires ownership).
+
+# Search and Pagination
+- Use '?search=' to filter posts by title or content.
+- Pagination is enabled with a default page size of 10.
 
 
