@@ -14,7 +14,7 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
+        post = get_object_or_404(Post, pk=pk)
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
@@ -38,7 +38,7 @@ class UnlikePostView(generics.GenericAPIView):
             like = Like.objects.get(user=request.user, post=post)
             like.delete()
             return Response({"detail": "Post unliked successfully."}, status=status.HTTP_200_OK)
-        except Like.DoesNotExist:
+        except Like.DoesNotExist:i
             return Response({"detail": "You haven't liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
 class PostViewSet(viewsets.ModelViewSet):
