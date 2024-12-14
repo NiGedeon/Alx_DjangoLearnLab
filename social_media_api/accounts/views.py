@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from rest_framework.views import APIView,generics
-from rest_framework import permissions.IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import RegisterSerializer, UserSerializer, LoginSerializer
@@ -29,7 +30,7 @@ class LoginView(APIView):
 
 
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
@@ -45,7 +46,7 @@ class FollowUserView(generics.GenericAPIView):
         return Response({'message': f'You are now following {user_to_follow.username}.'}, status=status.HTTP_200_OK)
 
 class UnfollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
