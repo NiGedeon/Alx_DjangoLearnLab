@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -26,8 +26,10 @@ class LoginView(APIView):
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class FollowUserView(APIView):
+
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
         try:
@@ -41,8 +43,9 @@ class FollowUserView(APIView):
         request.user.following.add(user_to_follow)
         return Response({'message': f'You are now following {user_to_follow.username}.'}, status=status.HTTP_200_OK)
 
-class UnfollowUserView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
         try:
